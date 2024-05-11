@@ -14,8 +14,16 @@ function getComputerChoice(){ //create a function called getComputerChoice
     return computerChoices[random]; // accesses the element at the random index within the computerChoices array
 }
 
-getComputerChoice() // calls the function
-
+function getHumanChoice(){ //create a function called getHumanChoice
+    let humanChoice = prompt("What is your answer?"); //prompts the user to input a choice
+    if (humanChoice.toLowerCase() === "rock" || //Define the valid responses which can be inputted
+        humanChoice.toLowerCase() === "paper" ||
+        humanChoice.toLowerCase() === "scissors") {
+    return humanChoice; //If the response is valid, return the inputted value
+    } else {
+    return "Invalid choice"; //If the response is invalid, return a message saying the choice is invalid
+    }
+}
 
     </script>
 </body>
