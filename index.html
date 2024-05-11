@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+
+function getComputerChoice(){ //create a function called getComputerChoice
+    let computerChoices = ["rock" , "paper" , "scissors"] //create a variable to store the different choices as string values
+    let random = Math.floor(Math.random() * computerChoices.length); //generates a random integer between 0 and the length of the array choice minus 1. This random integer represents an index to access a random element from the array
+    return computerChoices[random]; // accesses the element at the random index within the computerChoices array
+}
+
+getComputerChoice() // calls the function
+
+
+    </script>
+</body>
+</html>
