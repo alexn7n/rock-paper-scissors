@@ -29,15 +29,25 @@ let humanScore = 0; //variable to store the human score, initialized at 0
 let computerScore = 0; //variable to store the computer score, initialized at 0
 
 function playRound(humanChoice, computerChoice) { //create a function called playRound which takes the human and computer player choices as arguments
-    if (humanChoice === "rock" && computerChoice === "paper") {
-        console.log("You lose! Paper beats Rock");
-    } else if (humanChoice === "paper" && computerChoice === "scissors") {
-        console.log("You lose! Scissors beats Paper");
-    } else if (humanChoice === "scissors" && computerChoice === "rock") {
-        console.log("You lose! Rock beats Scissors");
-    } else {
-        console.log("You won!");
-    }
+    
+    if     
+        ((humanChoice === "rock" && computerChoice === "paper") ||
+        (humanChoice === "paper" && computerChoice === "scissors") ||
+        (humanChoice === "scissors" && computerChoice === "rock")) {
+    console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
+    humanScore++
+    
+} else if
+        ((humanChoice === "rock" && computerChoice === "paper") ||
+        (humanChoice === "paper" && computerChoice === "rock") ||
+        (humanChoice === "scissors" && computerChoice === "paper")) {
+        console.log(`You win! ${humanChoice} beats ${computerChoice}`)
+        computerScore++
+} else if   
+        ((humanChoice === computerChoice)) {
+        console.log(`It's a draw! ${humanChoice} is the same as ${computerChoice}`)
+}
+
 }
 
 const humanSelection = getHumanChoice();
