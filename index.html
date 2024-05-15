@@ -19,41 +19,58 @@ function getHumanChoice(){ //create a function called getHumanChoice
     if (humanChoice.toLowerCase() === "rock" || //Define the valid responses which can be inputted
         humanChoice.toLowerCase() === "paper" ||
         humanChoice.toLowerCase() === "scissors") {
-    return humanChoice; //If the response is valid, return the inputted value
+    return humanChoice.toLowerCase(); //If the response is valid, return the inputted value in lower case
     } else {
-    return "Invalid choice"; //If the response is invalid, return a message saying the choice is invalid
+        alert("Invalid choice - please enter rock, paper or scissors"); //If the response is invalid, return a message saying the choice is invalid
     }
 }
 
-let humanScore = 0; //variable to store the human score, initialized at 0
-let computerScore = 0; //variable to store the computer score, initialized at 0
-
 function playRound(humanChoice, computerChoice) { //create a function called playRound which takes the human and computer player choices as arguments
     
-    if     
+    if   //create a condition for when the computer wins which generates a losing message and assigns the computer one point
         ((humanChoice === "rock" && computerChoice === "paper") ||
         (humanChoice === "paper" && computerChoice === "scissors") ||
         (humanChoice === "scissors" && computerChoice === "rock")) {
-    console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
-    humanScore++
-    
-} else if
-        ((humanChoice === "rock" && computerChoice === "paper") ||
+        console.log(`You lose this round! ${computerChoice} beats ${humanChoice}`)   
+        return "computer"; // Computer wins
+} else if //create a condition for when the human wins which generates a winning message and assigns the human one point
+        ((humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")) {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}`)
-        computerScore++
-} else if   
+        console.log(`You win this round! ${humanChoice} beats ${computerChoice}`)
+        return "human"; // Human wins
+} else if //create a condition for when both choices are the same and generates a draw message
         ((humanChoice === computerChoice)) {
-        console.log(`It's a draw! ${humanChoice} is the same as ${computerChoice}`)
+        console.log(`It's a draw this round! ${humanChoice} is the same as ${computerChoice}`)
+        return "draw"; // Draw
 }
 
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+function playGame() { // create a function named playGame that calls playRound to play 5 rounds, keeps track of the scores and declares a winner at the end.
+    
+    let humanScore = 0; //variable to store the human score, initialized at 0
+    let computerScore = 0; //variable to store the computer score, initialized at 0
 
-playRound(humanSelection, computerSelection);
+    for (let i = 0; i < 5; i++) { //loop the game 5 times
+        const humanChoice = getHumanChoice(); //get the human choice and return the result to a humanChoice variable
+        const computerChoice = getComputerChoice(); //get the computer choice and return the result to a computerChoice variable
+        const result = playRound(humanChoice, computerChoice); //store the result of 1 round by calling the playRound function 
+        
+        //Scoring logic for a single game
+        if (result === "computer") {
+            computerScore++;
+        } else if (result === "human") {
+            humanScore++;
+        }
+    }
+    //Scoring logic for overall winner    
+    if (humanScore > computerScore) {
+        console.log(`You win the game! your score is ${humanScore} the computer score is ${computerScore}`)
+    } else if (computerScore > humanScore) {
+        console.log(`You lose the game! your score is ${humanScore} the computer score is ${computerScore}`)
+    }
+}
 
     </script>
 </body>
