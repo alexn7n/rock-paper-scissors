@@ -6,7 +6,25 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <script>
+    <div>
+        <button>Rock</button>
+        <button>Paper</button>
+        <button>Scissors</button> 
+    </div>
+    <div id="results"></div>
+
+<script>
+
+const playerSelections = document.querySelectorAll("button");
+const results = document.querySelector("#results");
+
+playerSelections.forEach((button) => {
+    button.addEventListener("click", () => {
+        const humanChoice = button.textContent.toLowerCase(); // Get the text of the clicked button
+        const computerChoice = getComputerChoice();
+        playRound(humanChoice, computerChoice);
+    });
+});
 
 function getComputerChoice(){ //create a function called getComputerChoice
     let computerChoices = ["rock" , "paper" , "scissors"] //create a variable to store the different choices as string values
@@ -14,36 +32,32 @@ function getComputerChoice(){ //create a function called getComputerChoice
     return computerChoices[random]; // accesses the element at the random index within the computerChoices array
 }
 
-function getHumanChoice(){ //create a function called getHumanChoice
-    let humanChoice = prompt("What is your answer?"); //prompts the user to input a choice
-    if (humanChoice.toLowerCase() === "rock" || //Define the valid responses which can be inputted
-        humanChoice.toLowerCase() === "paper" ||
-        humanChoice.toLowerCase() === "scissors") {
-    return humanChoice.toLowerCase(); //If the response is valid, return the inputted value in lower case
-    } else {
-        alert("Invalid choice - please enter rock, paper or scissors"); //If the response is invalid, return a message saying the choice is invalid
-    }
-}
 
 function playRound(humanChoice, computerChoice) { //create a function called playRound which takes the human and computer player choices as arguments
-    
+    results.textContent = "";
+    const span = document.createElement("p");
+
     if   //create a condition for when the computer wins which generates a losing message and assigns the computer one point
         ((humanChoice === "rock" && computerChoice === "paper") ||
         (humanChoice === "paper" && computerChoice === "scissors") ||
         (humanChoice === "scissors" && computerChoice === "rock")) {
-        console.log(`You lose this round! ${computerChoice} beats ${humanChoice}`)   
+        span.textContent = `You lose this round! ${computerChoice} beats ${humanChoice}`; 
+        results.appendChild(span);
         return "computer"; // Computer wins
 } else if //create a condition for when the human wins which generates a winning message and assigns the human one point
         ((humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")) {
-        console.log(`You win this round! ${humanChoice} beats ${computerChoice}`)
+        span.textContent = `You win this round! ${humanChoice} beats ${computerChoice}`;  
+        results.appendChild(span);
         return "human"; // Human wins
 } else if //create a condition for when both choices are the same and generates a draw message
         ((humanChoice === computerChoice)) {
-        console.log(`It's a draw this round! ${humanChoice} is the same as ${computerChoice}`)
+        span.textContent = `It's a draw this round! ${humanChoice} is the same as ${computerChoice}`;
+        results.appendChild(span);
         return "draw"; // Draw
 }
+
 
 }
 
