@@ -6,23 +6,102 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
+    <h1>Rock, paper, scissors</h1>
+    <p id="announcement">Lets' play! select an option to start the game</p>  
+    
     <div>
-        <button>Rock</button>
-        <button>Paper</button>
-        <button>Scissors</button> 
+        <button class="selection-button">
+            <span class="emoji">🪨</span>
+            <span class="button-text">Rock</span>
+        </button> 
+        <button class="selection-button">
+            <span class="emoji">🧻</span>
+            <span class="button-text">Paper</span>
+        </button> 
+        <button class="selection-button">
+            <span class="emoji">✂️</span>
+            <span class="button-text">Scissors</span>
+        </button> 
     </div>
-    <div id="results"></div>
+
+    <h2>Score</h2>
+    <div id="results"> 
+        <div>
+            <p>You</p>
+            <p id="playerscore">0</p>
+        </div>
+        <div>
+            <p>Computer</p>
+            <p id="computerscore">0</p>
+        </div>
+    </div>
+    
+    <h2>Results</h2>
+    <table>
+        <tr>
+            <td>Round 1</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Round 2</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Round 3</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Round 4</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Round 5</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <button id="restart-button">Restart game</button>
 
 <script>
 
-const playerSelections = document.querySelectorAll("button");
-const results = document.querySelector("#results");
+const playerSelections = document.querySelectorAll(".selection-button"); //variable to select all buttons
+const computerTally = document.querySelector("#computerscore"); //variable to store the computer tally based on the p 
+const humanTally = document.querySelector("#playerscore"); //variable to store the human tally based on the p 
+const announcement = document.querySelector("#announcement"); //variable to store the announcement messages
+const restart = document.querySelector("#restart-button"); //variable to store the restart button
+
+
+let humanScore = 0; //variable to store the human score, initialized at 0
+let computerScore = 0; //variable to store the computer score, initialized at 0
+let roundCount = 0; //variable to store the number of rounds that have been played
 
 playerSelections.forEach((button) => {
     button.addEventListener("click", () => {
-        const humanChoice = button.textContent.toLowerCase(); // Get the text of the clicked button
+        const humanChoice = button.querySelector(".button-text").textContent.toLowerCase();
         const computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
+        const result = playRound(humanChoice, computerChoice);
+        
+        //Scoring logic for a single game
+            if (result === "computer") {
+            computerScore++;
+        } else if (result === "human") {
+            humanScore++;
+        }
+        //Store the results in the paragraph
+        computerTally.textContent = computerScore;
+        humanTally.textContent = humanScore;
+
+        roundCount++; // Increment the round count
+
+        const table = document.querySelector("table");
+        const row = table.querySelector(`tr:nth-child(${roundCount})`);
+        const resultCell = row.querySelector("td:nth-child(2)");
+        resultCell.textContent = `${result === "draw" ? "It's a draw" : `${result} wins`}!`;
+
+        if (roundCount === 5) { // If 5 rounds have been played end the game and declare winner
+            declareWinner();
+        }
+    
     });
 });
 
@@ -34,57 +113,57 @@ function getComputerChoice(){ //create a function called getComputerChoice
 
 
 function playRound(humanChoice, computerChoice) { //create a function called playRound which takes the human and computer player choices as arguments
-    results.textContent = "";
-    const span = document.createElement("p");
+    announcement.textContent = ""; 
 
     if   //create a condition for when the computer wins which generates a losing message and assigns the computer one point
         ((humanChoice === "rock" && computerChoice === "paper") ||
         (humanChoice === "paper" && computerChoice === "scissors") ||
         (humanChoice === "scissors" && computerChoice === "rock")) {
-        span.textContent = `You lose this round! ${computerChoice} beats ${humanChoice}`; 
-        results.appendChild(span);
+        announcement.textContent = `You lose this round! ${computerChoice} beats ${humanChoice}`; 
         return "computer"; // Computer wins
 } else if //create a condition for when the human wins which generates a winning message and assigns the human one point
         ((humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")) {
-        span.textContent = `You win this round! ${humanChoice} beats ${computerChoice}`;  
-        results.appendChild(span);
+        announcement.textContent = `You win this round! ${humanChoice} beats ${computerChoice}`;  
         return "human"; // Human wins
 } else if //create a condition for when both choices are the same and generates a draw message
         ((humanChoice === computerChoice)) {
-        span.textContent = `It's a draw this round! ${humanChoice} is the same as ${computerChoice}`;
-        results.appendChild(span);
+        announcement.textContent = `It's a draw this round! ${humanChoice} is the same as ${computerChoice}`;
         return "draw"; // Draw
 }
-
-
-}
-
-function playGame() { // create a function named playGame that calls playRound to play 5 rounds, keeps track of the scores and declares a winner at the end.
     
-    let humanScore = 0; //variable to store the human score, initialized at 0
-    let computerScore = 0; //variable to store the computer score, initialized at 0
+}
 
-    for (let i = 0; i < 5; i++) { //loop the game 5 times
-        const humanChoice = getHumanChoice(); //get the human choice and return the result to a humanChoice variable
-        const computerChoice = getComputerChoice(); //get the computer choice and return the result to a computerChoice variable
-        const result = playRound(humanChoice, computerChoice); //store the result of 1 round by calling the playRound function 
-        
-        //Scoring logic for a single game
-        if (result === "computer") {
-            computerScore++;
-        } else if (result === "human") {
-            humanScore++;
-        }
-    }
-    //Scoring logic for overall winner    
+function declareWinner() {
     if (humanScore > computerScore) {
-        console.log(`You win the game! your score is ${humanScore} the computer score is ${computerScore}`)
+        announcement.textContent = `You won the game with ${humanScore} points!`;
     } else if (computerScore > humanScore) {
-        console.log(`You lose the game! your score is ${humanScore} the computer score is ${computerScore}`)
+        announcement.textContent = `You lose the game with ${humanScore} points!`;   
+    } else {
+        announcement.textContent = `It's a draw!`;
     }
 }
+
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    roundCount = 0;
+
+    humanTally.textContent = 0;
+    computerTally.textContent = 0;
+
+    const table = document.querySelector("table");
+    table.querySelectorAll("td:nth-child(2)").forEach((cell) => {
+        cell.textContent = "";
+    });
+
+    announcement.textContent = "Let's play! Select an option to start the game.";
+}
+
+restart.addEventListener('click',() => {
+    resetGame();
+});
 
     </script>
 </body>
